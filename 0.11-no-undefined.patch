@@ -1,0 +1,11 @@
+--- origsrc/jbig2dec-0.11/Makefile.am	2009-07-15 23:44:49.000000000 -0500
++++ src/jbig2dec-0.11/Makefile.am	2010-08-12 23:01:28.330234300 -0500
+@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = foreign 1.7 dist-bzip
+ lib_LTLIBRARIES = libjbig2dec.la
+ include_HEADERS = jbig2.h
+ 
+-libjbig2dec_la_LDFLAGS = -version-info @JBIG2DEC_LT_CURRENT@:@JBIG2DEC_LT_REVISION@:@JBIG2DEC_LT_AGE@
++libjbig2dec_la_LDFLAGS = -version-info @JBIG2DEC_LT_CURRENT@:@JBIG2DEC_LT_REVISION@:@JBIG2DEC_LT_AGE@ -no-undefined
+ libjbig2dec_la_SOURCES = jbig2.c \
+ 	jbig2_arith.c jbig2_arith_int.c jbig2_arith_iaid.c jbig2_huffman.c \
+ 	jbig2_segment.c jbig2_page.c \
