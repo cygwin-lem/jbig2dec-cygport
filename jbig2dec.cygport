@@ -1,0 +1,25 @@
+NAME="jbig2dec"
+VERSION=0.11
+RELEASE=2
+CATEGORY="Graphics"
+SUMMARY="JBIG2 image decoder"
+DESCRIPTION="jbig2dec is a decoder implementation of the JBIG2 image compression
+format. JBIG2 is designed for lossy or lossless encoding of 'bilevel' (1-bit
+monochrome) images at moderately high resolution, and in particular scanned
+paper documents. In this domain it is very efficient, offering compression
+ratios on the order of 100:1."
+HOMEPAGE="http://jbig2dec.sourceforge.net/"
+SRC_URI="http://ghostscript.com/~giles/jbig2/jbig2dec/${P}.tar.xz"
+PATCH_URI="mirror://portage/media-libs/${NAME}/files/${NAME}-0.11-libpng15.patch
+           0.11-no-undefined.patch"
+
+PKG_NAMES="${PN} lib${PN}0 lib${PN}-devel"
+jbig2dec_CONTENTS="usr/bin/*.exe usr/share/"
+libjbig2dec0_SUMMARY="${SUMMARY} (runtime)"
+libjbig2dec0_CONTENTS="usr/bin/cygjbig2dec-0.dll"
+libjbig2dec_devel_SUMMARY="${SUMMARY} (development)"
+libjbig2dec_devel_CONTENTS="usr/include/ usr/lib/"
+
+WANT_AUTOMAKE=1.9
+
+KEEP_LA_FILES="none"
