@@ -1,6 +1,6 @@
 NAME="jbig2dec"
 VERSION=0.11
-RELEASE=2
+RELEASE=3
 CATEGORY="Graphics"
 SUMMARY="JBIG2 image decoder"
 DESCRIPTION="jbig2dec is a decoder implementation of the JBIG2 image compression
