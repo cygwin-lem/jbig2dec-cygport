@@ -1,5 +1,5 @@
 NAME="jbig2dec"
-VERSION=0.12
+VERSION=0.19
 RELEASE=1
 CATEGORY="Graphics"
 SUMMARY="JBIG2 image decoder"
@@ -8,10 +8,41 @@ format. JBIG2 is designed for lossy or lossless encoding of 'bilevel' (1-bit
 monochrome) images at moderately high resolution, and in particular scanned
 paper documents. In this domain it is very efficient, offering compression
 ratios on the order of 100:1."
-HOMEPAGE="http://ghostscript.com/"
-SRC_URI="http://downloads.ghostscript.com/public/jbig2dec/jbig2dec-${VERSION}.tar.gz"
-PATCH_URI="0.12-libpng15.patch"
+HOMEPAGE="https://jbig2dec.com/"
 
+################################
+## Source from a git repository
+################################
+GIT_REPO="https://github.com/ArtifexSoftware/jbig2dec"
+declare -A GIT_DATEHASH_BY_NAME=(
+  # git log -1 --date=iso-strict --format='%cd/%H'
+  [0.19]=2020-09-10T16:14:14+01:00/1c336b8ab44524dc56ea837e2211ff4207704cdd
+)
+REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
+REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%/*}"
+REV_DATE_SHORT="${GIT_DATEHASH_BY_NAME[${VERSION}]%T*}"
+GIT_BASENAME="${GIT_REPO##*/}"
+SRC_URI="${GIT_REPO}/archive/${REV_HASH}.tar.gz"   # GitHub
+#SRC_URI="${GIT_REPO}/-/archive/${REV_HASH}/${GIT_BASENAME}-${REV_HASH}.tar.bz2" # GitLab
+SRC_DIR="${GIT_BASENAME}-${REV_HASH}"
+
+################################
+## Compile
+################################
+# cf. autotools.cygclass/src_compile (autotools)
+src_compile() {
+  cd ${S}
+  ./autogen.sh
+  make distclean
+  cygautoreconf
+  cd ${B}
+  cygconf
+  cygmake
+}
+
+################################
+## Packages
+################################
 PKG_NAMES="${NAME} lib${NAME}0 lib${NAME}-devel"
 jbig2dec_CONTENTS="usr/bin/*.exe usr/share/"
 libjbig2dec0_CATEGORY="Libs"
@@ -21,4 +52,28 @@ libjbig2dec_devel_CATEGORY="Libs"
 libjbig2dec_devel_SUMMARY="${SUMMARY} (development)"
 libjbig2dec_devel_CONTENTS="usr/include/ usr/lib/"
 
+DIFF_EXCLUDES="configure.ac"
 KEEP_LA_FILES="none"
+
+################################
+## Test
+################################
+# cf. src_test.cygpart
+src_test() {
+  prep_testdata
+  cd ${B}
+  cygtest
+}
+
+prep_testdata() {
+  cd ${top}
+  [ -f jb2streams.zip ] || wget -nv https://jbig2dec.com/tests/jb2streams.zip
+  [ -f t89-halftone.zip ] || wget -nv https://jbig2dec.com/tests/t89-halftone.zip
+
+  cd ${B}
+  local JB2_TESTDATA_DIR=tests/ubc
+  rm -rf "${JB2_TESTDATA_DIR}"
+  mkdir -p "${JB2_TESTDATA_DIR}"
+  unzip -n ${top}/jb2streams.zip -d "${JB2_TESTDATA_DIR}"
+  unzip -n ${top}/t89-halftone.zip '*.jb2' -d "${JB2_TESTDATA_DIR}"
+}
