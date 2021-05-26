@@ -1,5 +1,5 @@
 NAME="jbig2dec"
-VERSION=0.19
+VERSION=0.19p4
 RELEASE=1
 CATEGORY="Graphics"
 SUMMARY="JBIG2 image decoder"
@@ -16,6 +16,7 @@ HOMEPAGE="https://jbig2dec.com/"
 GIT_REPO="https://github.com/ArtifexSoftware/jbig2dec"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log -1 --date=iso-strict --format='%cd/%H'
+  [0.19p4]=2021-03-15T10:46:13+00:00/a6cc1dace9e08159766a45798a69fe4c4a6a881c
   [0.19]=2020-09-10T16:14:14+01:00/0.19
 )
 REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
