@@ -16,15 +16,14 @@ HOMEPAGE="https://jbig2dec.com/"
 GIT_REPO="https://github.com/ArtifexSoftware/jbig2dec"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log -1 --date=iso-strict --format='%cd/%H'
-  [0.19]=2020-09-10T16:14:14+01:00/1c336b8ab44524dc56ea837e2211ff4207704cdd
+  [0.19]=2020-09-10T16:14:14+01:00/0.19
 )
 REV_HASH="${GIT_DATEHASH_BY_NAME[${VERSION}]#*/}"
-REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%/*}"
-REV_DATE_SHORT="${GIT_DATEHASH_BY_NAME[${VERSION}]%T*}"
+REV_DATE="${GIT_DATEHASH_BY_NAME[${VERSION}]%%/*}"
+REV_DATE_SHORT="${REV_DATE%%T*}"
 GIT_BASENAME="${GIT_REPO##*/}"
-SRC_URI="${GIT_REPO}/archive/${REV_HASH}.tar.gz"   # GitHub
-#SRC_URI="${GIT_REPO}/-/archive/${REV_HASH}/${GIT_BASENAME}-${REV_HASH}.tar.bz2" # GitLab
-SRC_DIR="${GIT_BASENAME}-${REV_HASH}"
+SRC_URI="${GIT_REPO}/archive/${REV_HASH}/${GIT_BASENAME}-${VERSION}.tar.gz"
+SRC_DIR="${GIT_BASENAME}-${REV_HASH#v}"
 
 ################################
 ## Compile
