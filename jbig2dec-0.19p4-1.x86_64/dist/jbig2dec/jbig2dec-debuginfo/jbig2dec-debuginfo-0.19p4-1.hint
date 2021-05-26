@@ -1,0 +1,7 @@
+category: Debug
+requires: cygwin-debuginfo
+external-source: jbig2dec
+sdesc: "Debug info for jbig2dec"
+ldesc: "This package contains files necessary for debugging the
+jbig2dec package with gdb."
+
