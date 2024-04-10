@@ -1,5 +1,5 @@
 NAME="jbig2dec"
-VERSION=0.19p4
+VERSION=0.20p1
 RELEASE=1
 CATEGORY="Graphics"
 SUMMARY="JBIG2 image decoder"
@@ -9,6 +9,7 @@ monochrome) images at moderately high resolution, and in particular scanned
 paper documents. In this domain it is very efficient, offering compression
 ratios on the order of 100:1."
 HOMEPAGE="https://jbig2dec.com/"
+LICENSE="AGPL-3.0-or-later"
 
 ################################
 ## Source from a git repository
@@ -16,6 +17,8 @@ HOMEPAGE="https://jbig2dec.com/"
 GIT_REPO="https://github.com/ArtifexSoftware/jbig2dec"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log -1 --date=iso-strict --format='%cd/%H'
+  [0.20p1]=2023-11-05T12:22:05+01:00/ee53a7e4bc7819d32e8c0b2057885bcc97586bf3
+  [0.20]=2023-08-30T13:34:46+02:00/0.20
   [0.19p4]=2021-03-15T10:46:13+00:00/a6cc1dace9e08159766a45798a69fe4c4a6a881c
   [0.19]=2020-09-10T16:14:14+01:00/0.19
 )
@@ -54,26 +57,3 @@ libjbig2dec_devel_CONTENTS="usr/include/ usr/lib/"
 
 DIFF_EXCLUDES="configure.ac"
 KEEP_LA_FILES="none"
-
-################################
-## Test
-################################
-# cf. src_test.cygpart
-src_test() {
-  prep_testdata
-  cd ${B}
-  cygtest
-}
-
-prep_testdata() {
-  cd ${top}
-  [ -f jb2streams.zip ] || wget -nv https://jbig2dec.com/tests/jb2streams.zip
-  [ -f t89-halftone.zip ] || wget -nv https://jbig2dec.com/tests/t89-halftone.zip
-
-  cd ${B}
-  local JB2_TESTDATA_DIR=tests/ubc
-  rm -rf "${JB2_TESTDATA_DIR}"
-  mkdir -p "${JB2_TESTDATA_DIR}"
-  unzip -n ${top}/jb2streams.zip -d "${JB2_TESTDATA_DIR}"
-  unzip -n ${top}/t89-halftone.zip '*.jb2' -d "${JB2_TESTDATA_DIR}"
-}
